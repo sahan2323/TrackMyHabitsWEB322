@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Task - Task Manager</title>
+  <link href="/css/main.css" rel="stylesheet">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <%- include("partials/navbar") %>
+
+  <main class="flex flex-col items-center justify-center flex-1 p-4">
+    <div class="card bg-base-200 w-full max-w-md p-6 shadow">
+      <h2 class="text-2xl font-bold mb-4 text-center">Edit Task</h2>
+
+      <% if (message) { %>
+        <p class="text-red-500 mb-4"><%= message %></p>
+      <% } %>
+
+      <form action="/tasks/edit/<%= task.id %>" method="POST" class="flex flex-col gap-4">
+        <input name="title" type="text" placeholder="Task Title" class="input input-bordered w-full" value="<%= task.title %>" required>
+        <textarea name="description" placeholder="Description" class="textarea textarea-bordered w-full"><%= task.description %></textarea>
+        <input name="dueDate" type="date" class="input input-bordered w-full" value="<%= task.dueDate || '' %>">
+        <select name="status" class="select select-bordered w-full">
+          <option value="pending" <%= task.status === 'pending' ? 'selected' : '' %>>Pending</option>
+          <option value="completed" <%= task.status === 'completed' ? 'selected' : '' %>>Completed</option>
+        </select>
+
+        <button class="btn btn-primary w-full">Update Task</button>
+      </form>
+
+      <a href="/dashboard" class="btn btn-ghost mt-4 w-full">← Back to Dashboard</a>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>
+
+</body>
+</html>
