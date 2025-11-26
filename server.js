@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('pg');
 const express = require('express');
 const path = require('path');
 const session = require('client-sessions');
@@ -89,7 +90,7 @@ app.post('/login', ensureLogout, async (req, res) => {
     }
 });
 
-// ------------------- DASHBOARD -------------------
+// DASHBOARD 
 app.get('/dashboard', ensureLogin, async (req, res) => {
     try {
         let tasks = await Task.findAll({
