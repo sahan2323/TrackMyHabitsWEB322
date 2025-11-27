@@ -19,7 +19,7 @@ const Task = require('./models/Task'); // Task model
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ------------------- AUTH MIDDLEWARE -------------------
+
 function ensureLogin(req, res, next) {
     if (!req.session.user) return res.redirect('/login');
     next();
@@ -30,7 +30,7 @@ function ensureLogout(req, res, next) {
     next();
 }
 
-// ------------------- MIDDLEWARE -------------------
+// MIDDLEWARE 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,12 +45,12 @@ app.use(session({
     activeDuration: 5 * 60 * 1000,
 }));
 
-// ------------------- ROUTES -------------------
+// ROUTES
 app.get('/', (req, res) => res.render('home'));
 app.get('/login', ensureLogout, (req, res) => res.render('login'));
 app.get('/register', ensureLogout, (req, res) => res.render('register'));
 
-// ------------------- REGISTER -------------------
+//  REGISTER 
 app.post('/register', ensureLogout, async (req, res) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) return res.render('register', { message: 'All fields are required.' });
@@ -70,7 +70,7 @@ app.post('/register', ensureLogout, async (req, res) => {
     }
 });
 
-// ------------------- LOGIN -------------------
+//  LOGIN 
 app.post('/login', ensureLogout, async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) return res.render('login', { message: 'Both fields are required.' });
@@ -113,7 +113,7 @@ app.get('/dashboard', ensureLogin, async (req, res) => {
 });
 
 
-// ------------------- ADD TASK -------------------
+// ADD TASK 
 app.get('/tasks/add', ensureLogin, (req, res) => {
     res.render('addTask', { user: req.session.user, message: null });
 });
@@ -144,7 +144,7 @@ app.get('/tasks/edit/:id', ensureLogin, async (req, res) => {
 
     try {
         const task = await Task.findOne({
-            where: { id: taskId, userId: req.session.user.id } // ensure user owns the task
+            where: { id: taskId, userId: req.session.user.id } // ensuring that user owns the task
         });
 
         if (!task) {
@@ -206,7 +206,7 @@ app.get('/tasks/delete/:id', ensureLogin, async (req, res) => {
     const taskId = req.params.id;
 
     try {
-        // Find the task and ensure it belongs to the logged-in user
+        // find the task and ensure it belongs to the logged-in user
         const task = await Task.findOne({
             where: { id: taskId, userId: req.session.user.id }
         });
@@ -224,14 +224,14 @@ app.get('/tasks/delete/:id', ensureLogin, async (req, res) => {
 });
 
 
-// ------------------- LOGOUT -------------------
+// LOGOUT 
 app.get('/logout', (req, res) => {
     req.session.reset();
     res.redirect('/login');
 });
 
 
-// ------------------- SERVER -------------------
+//  SERVER 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
