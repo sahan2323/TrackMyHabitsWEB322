@@ -20,12 +20,12 @@ const Task = sequelize.define('Task', {
     defaultValue: 'pending'
   },
   userId: {
-    type: DataTypes.STRING, // MongoDB User._id
+    type: DataTypes.STRING, 
     allowNull: false
   }
 }, {
   timestamps: true,
-  tableName: 'Tasks' // ensure table name consistency
+  tableName: 'Tasks' 
 });
 
 // Export the model only

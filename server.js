@@ -40,7 +40,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(session({
     cookieName: 'session',
-    secret: process.env.SESSION_SECRET || 'supersecretkey',
+    secret: process.env.SESSION_SECRET,
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
 }));
