@@ -46,9 +46,17 @@ app.use(session({
 }));
 
 // ROUTES
-app.get('/', (req, res) => res.render('home'));
-app.get('/login', ensureLogout, (req, res) => res.render('login'));
-app.get('/register', ensureLogout, (req, res) => res.render('register'));
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+app.get('/login', ensureLogout, (req, res) => {
+    res.render('login');
+});
+
+app.get('/register', ensureLogout, (req, res) => {
+    res.render('register');
+});
 
 //  REGISTER 
 app.post('/register', ensureLogout, async (req, res) => {
